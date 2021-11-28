@@ -9,11 +9,13 @@ For more general tutorial, see:
 
 ##  Setup
 
- $ virtualenv env
- $ source env/bin/active
- $ pip install -r requirements.txt
- $ ./setup.sh
- $ python gen_activepoints.py
+Setup:
+
+   $ virtualenv env
+   $ source env/bin/active
+   $ pip install -r requirements.txt
+   $ ./setup.sh
+   $ python gen_activepoints.py
 
 This will produce a .csv file with two days of trip data interpolated at 2
 minute intervals. This data can then be loaded into qgis.
