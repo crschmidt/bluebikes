@@ -8,6 +8,7 @@ For more general tutorial, see:
    https://www.qgistutorials.com/en/docs/3/animating_time_series.html
 
 ##  Setup
+This code is all Python 2, not Python 3. Sorry.
 
 Setup:
 
