@@ -1,0 +1,3 @@
+https://services.arcgis.com/sFnw0xNflSi8J0uh/ArcGIS/rest/services/CoB_centerlines_existing_under/FeatureServer/2|CoB_centerlines|0
+https://services.arcgis.com/sFnw0xNflSi8J0uh/ArcGIS/rest/services/June_2022_Bike_Counts_/FeatureServer/0|June 2022 All Counts|0
+https://services.arcgis.com/sFnw0xNflSi8J0uh/ArcGIS/rest/services/MassDOT_BikeInventory2020/FeatureServer/3|MassDOT_BikeInventory2020|0
