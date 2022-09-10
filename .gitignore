@@ -1,4 +1,7 @@
+routes2
 env
 *.csv
 *.zip
 *.db
+node_modules
+output
