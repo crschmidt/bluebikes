@@ -18,11 +18,9 @@ def run():
     for row in r:
         se, geom = row
         pl[se] = geom
-    
     # Connect to db
     db = sqlite3.connect("trips.db")
     c = db.cursor()
-    
     dt = START_DATE
     w = csv.writer(open('out.csv', 'w'))
     w.writerow(['timestamp', 'lon', 'lat', 'bikeid'])
@@ -35,7 +33,6 @@ def run():
         for row in data:
             s, e, duration, x, bikeid = row
             ip_dist = float(x)/float(duration)
-    
             try:
                 # Convert polyline to LineString + interpolate
                 k = '%s-%s' % (s, e)
