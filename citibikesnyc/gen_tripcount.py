@@ -26,7 +26,7 @@ def run():
         data = c.fetchall()
         w.writerow([dt, data[0][0]])
         if loops % 10 == 0:
-            print "Completed %s" % dt
+            print("Completed %s" % dt)
         loops += 1
         dt = dt + TIME_WINDOW
 

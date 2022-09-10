@@ -8,7 +8,7 @@ for s in data['data']['stations']:
     if s['capacity'] > 0:
         id, lat, lon = s['station_id'], s['lat'], s['lon']
         stations[id] = [lat, lon]
-print len(stations)
+print(len(stations))
 
 import requests
 url = 'https://www.strava.com/frontend/routemaster/bulk_route'  
@@ -25,20 +25,19 @@ bad_stations =['171', '182', '213', '377', '46', '471']
 
 for s in stations:
     for s2 in stations:
-        print s, s2
+        print(s, s2)
         if s in bad_stations or s2 in bad_stations:
-            print "Skipping bad station"
+            print("Skipping bad station")
             continue
         if s == s2: continue
         if os.path.exists("routes/%s-%s.json" % (s, s2)): 
-            print "Exists" 
+            print("Exists")
             continue
         r = requests.post(url, headers=headers, data='{"sets":[{"elements":[{"element_type":1,"waypoint":{"point":{"lat":%.6f,"lng":%.6f}}},{"element_type":1,"waypoint":{"point":{"lat":%.6f,"lng":%.6f}}}],"preferences":{"popularity":0.5,"elevation":0,"route_type":1,"route_sub_type":5,"straight_line":false}}]}' % (stations[s][0], stations[s][1], stations[s2][0], stations[s2][1]))
         try:
             json.loads(r.text)
-        except Exception, E:
-            print E
-            print r.text
+        except Exception as E:
+            print(E, r.text)
             break
         f = open("routes/%s-%s.json" % (s, s2), "w")
         f.write(r.text)

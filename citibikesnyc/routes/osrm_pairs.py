@@ -11,7 +11,7 @@ r = csv.reader(open("route_pairs.csv"))
 for row in r:
         s, s2, slat, slon, s2lat, s2lon, count = row
         if s in bad_stations or s2 in bad_stations:
-            print "Skipping bad station"
+            print("Skipping bad station")
             continue
         if s == s2: continue
         if os.path.exists("routes/%s_%s.json" % (s, s2)): 
@@ -21,10 +21,10 @@ for row in r:
         try:
             req = requests.post(url)
             json.loads(req.text)
-        except Exception, E:
-            print E
+        except Exception as E:
+            print(E)
             if req:
-                print req.text
+                print(req.text)
             time.sleep(1)
             continue
         f = open("routes/%s_%s.json" % (s, s2), "w")
@@ -33,4 +33,4 @@ for row in r:
         req.close()
         i+=1
         if i % 100 == 0:
-            print i
+            print(i)

@@ -14,11 +14,11 @@ for i in allroutes:
     f, t = i.strip(".json").split("_")
     try:
         d = json.loads(fh.read())
-    except Exception, E:
-        print i
+    except Exception as E:
+        print(i)
         raise E
     if not 'code' in d or not d['code'] == 'Ok':
-        print 'skipping', i
+        print('skipping', i)
         continue
     se = "%s_%s" % (f, t)
     polyline = d['routes'][0]['geometry']

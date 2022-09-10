@@ -13,4 +13,4 @@ headers = {
 r = requests.post(url, headers=headers, data='{"sets":[{"elements":[{"element_type":1,"waypoint":{"point":{"lat":42.36250167231222,"lng":-71.10958420020755}}},{"element_type":1,"waypoint":{"point":{"lat":42.37465244020785,"lng":-71.11358751166367}}}],"preferences":{"popularity":1.0,"elevation":0,"route_type":1,"route_sub_type":5,"straight_line":false}}]}')
 
 
-print r.text
+print(r.text)

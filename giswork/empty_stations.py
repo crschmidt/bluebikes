@@ -8,4 +8,4 @@ status = json.load(open("station_status.json"))
 for i in status['data']['stations']:
     if i['station_status'] != "active":
         continue
-    print ",".join([str(i['num_bikes_available']), station_map[i['station_id']]['name']])
+    print(",".join([str(i['num_bikes_available']), station_map[i['station_id']]['name']]))

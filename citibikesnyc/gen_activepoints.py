@@ -53,7 +53,7 @@ def run():
                 k = '%s_%s' % (s, e)
                 if not k in se:
                     if not k in pl: 
-                        print k
+                        print(k)
                         continue
                     l = polyline.decode(pl[k], geojson=True)
                     se[k] = l
@@ -64,9 +64,9 @@ def run():
                 continue
             found += 1
         if found != i:
-            print "Found %s out of %s" % (found, i)
+            print("Found %s out of %s" % (found, i))
         if loops % 10 == 0:
-            print "Completed %s" % dt
+            print("Completed %s" % dt)
         loops += 1
 
 if __name__ == "__main__":

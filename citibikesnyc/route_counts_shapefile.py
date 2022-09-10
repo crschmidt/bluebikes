@@ -28,7 +28,7 @@ schema={
         k = '%s_%s' % (s, e)
         if not k in se:
             if not k in pl: 
-                print "Missing route", k
+                print("Missing route", k)
                 continue
         output.write({
             'type':'Feature', 'geometry': {
