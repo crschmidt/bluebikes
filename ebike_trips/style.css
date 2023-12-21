@@ -1,0 +1,23 @@
+/* style.css */
+#map-container {
+    width: 70%;
+    height: 100vh;
+    float: left;
+}
+
+#sidebar {
+    width: 30%;
+    height: 100vh;
+    float: right;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
