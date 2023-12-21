@@ -143,7 +143,7 @@ document.getElementById('next-trip').addEventListener('click', () => {
 // Initialize
 initMap();
 loadData().then(() => {
-    currentTripIndex = 0;   
+    currentTripIndex = tripsData.length - 1;   
     const tripIndexFromUrl = parseInt(getQueryParam('trip'));
     if (!isNaN(tripIndexFromUrl) && tripIndexFromUrl >= 0 && tripIndexFromUrl < tripsData.length) {
         currentTripIndex = tripIndexFromUrl;
