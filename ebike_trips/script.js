@@ -27,7 +27,6 @@ async function loadData() {
         stationsData[station.legacy_id] = station;
     });
 
-    displayTrip(currentTripIndex);
 }
 
 // Display a specific trip
