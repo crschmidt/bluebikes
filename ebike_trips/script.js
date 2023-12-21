@@ -4,6 +4,7 @@ let tripsData = [];
 let stationsData = {};
 let map;
 let markers = [];
+let routeLayer = null;
 
 function convertUtcToEastern(timeStr) {
     // Parse the UTC time using moment-timezone
@@ -37,8 +38,31 @@ async function loadData() {
 
 }
 
+async function getBikeRoute(start, end) {
+    const url = `https://api.openrouteservice.org/v2/directions/cycling-regular?api_key=5b3ce3597851110001cf6248e783548ff1fb44fba03fcac4bd0387fc&start=${start.lng},${start.lat}&end=${end.lng},${end.lat}`;
+
+    try {
+        const response = await fetch(url, { method: 'GET' });
+        const data = await response.json();
+        const coords = data.features[0].geometry.coordinates;
+        const latLngs = coords.map(coord => [coord[1], coord[0]]);
+        if (routeLayer) {
+            map.removeLayer(routeLayer);
+            routeLayer = null;
+        }
+        routeLayer = L.polyline(latLngs, { color: 'blue' }).addTo(map);
+        map.fitBounds(latLngs);
+    } catch (error) {
+        console.error('Failed to get bike route:', error);
+    }
+}
+
 // Display a specific trip
 function displayTrip(index) {
+        if (routeLayer) {
+            map.removeLayer(routeLayer);
+            routeLayer = null;
+        }
     let trip = tripsData[index];
     let startStation = stationsData[trip.start];
     let endStation = stationsData[trip.end];
@@ -64,10 +88,17 @@ function displayTrip(index) {
     tripInfoElement.innerHTML = `
         <li>Start Time: ${convertUtcToEastern(trip.start_time)}</li>
         <li>End Time: ${convertUtcToEastern(trip.end_time)}</li>
-	<li>Minutes: ${trip.min}</li>
+    <li>Minutes: ${trip.min}</li>
         <li>Start Battery: ${trip.start_batt}%</li>
         <li>End Battery: ${trip.end_batt}%</li>
+                <button id="show-route">Show Most Direct Bike Route</button>
+
     `;
+            document.getElementById('show-route').addEventListener('click', function() {
+        if (startStation && endStation) {
+            getBikeRoute(L.latLng(startStation.lat, startStation.lon), L.latLng(endStation.lat, endStation.lon));
+        }
+    });
     updateUrlWithTripIndex(index);
 }
 
@@ -102,7 +133,7 @@ document.getElementById('next-trip').addEventListener('click', () => {
 // Initialize
 initMap();
 loadData().then(() => {
-    currentTripIndex = 0;	
+    currentTripIndex = 0;   
     const tripIndexFromUrl = parseInt(getQueryParam('trip'));
     if (!isNaN(tripIndexFromUrl) && tripIndexFromUrl >= 0 && tripIndexFromUrl < tripsData.length) {
         currentTripIndex = tripIndexFromUrl;
