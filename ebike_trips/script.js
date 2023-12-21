@@ -5,9 +5,17 @@ let stationsData = {};
 let map;
 let markers = [];
 
+function convertUtcToEastern(timeStr) {
+    // Parse the UTC time using moment-timezone
+    let easternTime = moment.tz(timeStr, "UTC").tz("America/New_York");
+
+    // Format the date as needed
+    return easternTime.format("YYYY-MM-DD HH:mm");
+}
+
 // Initialize the map
 function initMap() {
-    map = L.map('map-container').setView([51.505, -0.09], 13); // Default view
+    map = L.map('map-container'); 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© OpenStreetMap contributors'
@@ -54,8 +62,8 @@ function displayTrip(index) {
     // Display trip data in the sidebar
     let tripInfoElement = document.getElementById('trip-info');
     tripInfoElement.innerHTML = `
-        <li>Start Time: ${trip.start_time}</li>
-        <li>End Time: ${trip.end_time}</li>
+        <li>Start Time: ${convertUtcToEastern(trip.start_time)}</li>
+        <li>End Time: ${convertUtcToEastern(trip.end_time)}</li>
 	<li>Minutes: ${trip.min}</li>
         <li>Start Battery: ${trip.start_batt}%</li>
         <li>End Battery: ${trip.end_batt}%</li>
@@ -94,6 +102,7 @@ document.getElementById('next-trip').addEventListener('click', () => {
 // Initialize
 initMap();
 loadData().then(() => {
+    currentTripIndex = 0;	
     const tripIndexFromUrl = parseInt(getQueryParam('trip'));
     if (!isNaN(tripIndexFromUrl) && tripIndexFromUrl >= 0 && tripIndexFromUrl < tripsData.length) {
         currentTripIndex = tripIndexFromUrl;
