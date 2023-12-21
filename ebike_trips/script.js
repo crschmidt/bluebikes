@@ -45,13 +45,18 @@ async function getBikeRoute(start, end) {
         const response = await fetch(url, { method: 'GET' });
         const data = await response.json();
         const coords = data.features[0].geometry.coordinates;
-        const latLngs = coords.map(coord => [coord[1], coord[0]]);
+        const latLngs = coords.map(coord => L.latLng(coord[1], coord[0]));
         if (routeLayer) {
             map.removeLayer(routeLayer);
             routeLayer = null;
         }
         routeLayer = L.polyline(latLngs, { color: 'blue' }).addTo(map);
         map.fitBounds(latLngs);
+        let totalDistance = 0;
+        for (let i = 1; i < latLngs.length; i++) {
+            totalDistance += latLngs[i].distanceTo(latLngs[i - 1]);
+        }
+        return totalDistance;
     } catch (error) {
         console.error('Failed to get bike route:', error);
     }
@@ -88,15 +93,20 @@ function displayTrip(index) {
     tripInfoElement.innerHTML = `
         <li>Start Time: ${convertUtcToEastern(trip.start_time)}</li>
         <li>End Time: ${convertUtcToEastern(trip.end_time)}</li>
-    <li>Minutes: ${trip.min}</li>
+        <li>Minutes: ${trip.min}</li>
         <li>Start Battery: ${trip.start_batt}%</li>
         <li>End Battery: ${trip.end_batt}%</li>
                 <button id="show-route">Show Most Direct Bike Route</button>
 
     `;
-            document.getElementById('show-route').addEventListener('click', function() {
+            document.getElementById('show-route').addEventListener('click', async function() {
         if (startStation && endStation) {
-            getBikeRoute(L.latLng(startStation.lat, startStation.lon), L.latLng(endStation.lat, endStation.lon));
+            let distance = await getBikeRoute(L.latLng(startStation.lat, startStation.lon), L.latLng(endStation.lat, endStation.lon));
+            distance /= 1609.344;
+            console.log(distance);
+            distance = distance.toFixed(2);
+            let tripInfoElement = document.getElementById('trip-info');
+            tripInfoElement.innerHTML += `<li>Estimated Distance: ${distance} miles</li>`
         }
     });
     updateUrlWithTripIndex(index);
